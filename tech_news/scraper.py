@@ -2,6 +2,7 @@ import requests
 import time
 from parsel import Selector
 from bs4 import BeautifulSoup
+# from tech_news.database import create_news
 
 # entry-title = h1
 
