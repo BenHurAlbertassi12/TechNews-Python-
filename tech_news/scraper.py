@@ -38,19 +38,6 @@ def scrape_next_page_link(html_content):
 # Requisito 4
 def scrape_news(html_content):
     """Seu código deve vir aqui"""
-    sess = Selector(text=html_content)
-    summary = sess.css('.entry-content p').get()
-
-    return {
-        "url": sess.css("link[rel='canonical']::attr(href)").get(),
-        "title": str(sess.css("h1.entry-title::text").get()).strip(),
-        "timestamp": sess.css("li.meta-date::text").get(),
-        "writer": sess.css("span.author a::text").get(),
-        "reading_time": sess.css(
-            '.meta-reading-time::text').get().split(' ')[0],
-        "summary": BeautifulSoup(summary, 'html.parser').text.strip(),
-        "category": sess.css(".entry-details span.label::text").get(),
-    }
 
 
 # Requisito 5
