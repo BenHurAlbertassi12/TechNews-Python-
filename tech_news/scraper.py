@@ -2,6 +2,8 @@ import requests
 import time
 from parsel import Selector
 
+# entry-title = h1
+
 
 # Requisito 1
 def fetch(url):
@@ -20,13 +22,15 @@ def fetch(url):
 # Requisito 2
 def scrape_updates(html_content):
     """Seu código deve vir aqui"""
-    sess = Selector(text=html_content)
-    return sess.css(".entry-title > a::attr(href)").getall()
+    return Selector(text=html_content).css(
+        ".entry-title > a::attr(href)").getall()
 
 
 # Requisito 3
 def scrape_next_page_link(html_content):
     """Seu código deve vir aqui"""
+    return Selector(text=html_content).css(
+        "a.next.page-numbers ::attr(href)").get()
 
 
 # Requisito 4
