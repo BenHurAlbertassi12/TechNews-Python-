@@ -1,8 +1,9 @@
+import re
 import requests
 import time
 from parsel import Selector
 # from bs4 import BeautifulSoup
-# from tech_news.database import create_news
+from tech_news.database import create_news
 
 # entry-title = h1
 
@@ -38,6 +39,19 @@ def scrape_next_page_link(html_content):
 # Requisito 4
 def scrape_news(html_content):
     """Seu código deve vir aqui"""
+    sess = Selector(text=html_content)
+    title = sess.css('h1.entry-title::text').get()
+    reading_time = sess.css('.meta-reading-time::text').get().split(' ')[0]
+    summary = sess.css('.entry-content p').get()
+    return {
+        'url': sess.css('link[rel="canonical"]::attr(href)').get(),
+        'title': title.replace('\n', '').strip(),
+        'timestamp': sess.css('.meta-date::text').get(),
+        'writer': sess.css('span.author a::text').get(),
+        'reading_time': int(reading_time),
+        'summary': re.sub('<.*?>', '', summary).strip(),
+        'category': sess.css('.meta-category .label::text').get()
+    }
 
 
 # Requisito 5
