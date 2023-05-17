@@ -3,7 +3,7 @@ import requests
 import time
 from parsel import Selector
 # from bs4 import BeautifulSoup
-# from tech_news.database import create_news
+from tech_news.database import create_news
 
 # entry-title = h1
 
@@ -57,3 +57,20 @@ def scrape_news(html_content):
 # Requisito 5
 def get_tech_news(amount):
     """Seu código deve vir aqui"""
+    page_url = fetch("https://blog.betrybe.com")
+    list_arr = []
+
+    while True:
+        for link in scrape_updates(page_url):
+            list_arr.append(scrape_news(fetch(link)))
+
+            if len(list_arr) >= amount:
+                break
+
+        if len(list_arr) >= amount:
+            break
+        else:
+            page_url = fetch(scrape_next_page_link(page_url))
+
+    create_news(list_arr)
+    return list_arr
