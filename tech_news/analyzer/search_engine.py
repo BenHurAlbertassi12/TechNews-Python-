@@ -12,13 +12,15 @@ def search_by_title(title):
 # Requisito 8
 def search_by_date(date):
     """Seu código deve vir aqui"""
+    noticias_arr = []
     try:
-        data = datetime.strptime(date, '%d/%m/%Y')
-        org_data = data.strftime('%Y-%m-%d')
-        return [(new['title'], new['url'])
-                for new in search_news({'timestamp': org_data})]
+        for news in search_news(
+                {"timestamp": datetime.fromisoformat(date).strftime(
+                    "%d/%m/%Y")}):
+            noticias_arr.append((news["title"], news["url"]))
+        return noticias_arr
     except ValueError:
-        raise ValueError('Data inválida')
+        raise ValueError("Data inválida")
 
 
 # Requisito 9
